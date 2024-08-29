@@ -1,5 +1,5 @@
 [submodule "src/core"]
   path = src/core
   branch = main
-  url = https://github.com/bellcurves/adapt-contrib-core
-  installBranch = v6.53.6
+  url = https://github.com/BLPS/g2a_adapt-contrib-core
+  installBranch = v6.53.7
