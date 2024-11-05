@@ -1,4 +1,5 @@
 const os = require('os');
+const fs = require('fs-extra');
 const { spawn, exec } = require('child_process');
 const jest = require('jest');
 const config = require('./jest.config');
@@ -80,21 +81,45 @@ async function waitForGruntServer() {
   return waitForExec('node', './node_modules/wait-on/bin/wait-on', 'http://127.0.0.1:9001');
 };
 
-async function cypressRun() {
-  if (argumentValues.testfiles) {
-    return asyncSpawn('node', './node_modules/cypress/bin/cypress', 'run', '--spec', `${argumentValues.testfiles}`, '--config', `{"fixturesFolder": "${argumentValues.outputdir}"}`);
+function populateTestFiles(testFormat) {
+  // accept the user-specified file(s)
+  if (argumentValues.testfiles) return argumentValues.testfiles;
+
+  // otherwise, only include test files for plugins present in the course config
+  const config = JSON.parse(fs.readFileSync(path.join(argumentValues.outputdir, 'course', 'config.json')));
+  const plugins = config?.build?.includes;
+  const globSuffix = testFormat === 'e2e' ? 'e2e/*.cy.js' : 'unit/*.js';
+
+  // Set a wider glob as default and limit to included plugins if that is set
+  let testFiles = [`**/*/test/${globSuffix}`];
+
+  const hasDefinedIncludes = Boolean(plugins?.length);
+  if (hasDefinedIncludes) {
+    testFiles = plugins.map(plugin => {
+      return `**/${plugin}/test/${globSuffix}`;
+    });
   }
 
-  return asyncSpawn('node', './node_modules/cypress/bin/cypress', 'run', '--config', `{"fixturesFolder": "${argumentValues.outputdir}"}`);
+  // Add the framework level test files
+  if (testFormat === 'e2e') {
+    testFiles.push(`./test/${globSuffix}`);
+  } else {
+    testFiles.push('<rootDir>/test/unit/*.js');
+  }
+
+  return testFiles.join(',');
+}
+
+async function cypressRun() {
+  const testFiles = populateTestFiles('e2e');
+  return asyncSpawn('node', './node_modules/cypress/bin/cypress', 'run', '--spec', `${testFiles}`, '--config', `{"fixturesFolder": "${argumentValues.outputdir}"}`);
 };
 
 async function jestRun() {
   config.testEnvironmentOptions.outputDir = argumentValues.outputdir;
 
-  // Limit the tests if a certain set are passed in
-  if (argumentValues.testfiles) {
-    config.testMatch = argumentValues.testfiles.split(',');
-  }
+  const testFiles = populateTestFiles('unit');
+  config.testMatch = testFiles.split(',');
 
   return jest.runCLI(config, [process.cwd().replace(/\\/g, '/')]);
 };
@@ -176,6 +201,7 @@ ${Object.values(commands).map(({ name, description }) => `    ${name.padEnd(21, 
       } catch (cypressErr) {
         console.log('Cypress tests failure');
         console.log(cypressErr);
+        process.exit(1);
       }
 
       gruntServerRun.kill();

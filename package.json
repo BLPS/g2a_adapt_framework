@@ -1,6 +1,6 @@
 {
     "name": "adapt_framework",
-    "version": "5.40.8",
+    "version": "5.41.12",
     "description": "Adapt Learning output framework",
     "repository": {
         "type": "git",
@@ -57,7 +57,7 @@
         "load-grunt-config": "^4.0.1",
         "lodash": "^4.17.19",
         "nsdeclare": "^0.1.0",
-        "rollup": "^2.79.1",
+        "rollup": "^2.79.2",
         "semver": "^7.6.0",
         "time-grunt": "^2.0.0",
         "underscore": "^1.13.1",
