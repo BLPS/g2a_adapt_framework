@@ -1,5 +1,5 @@
 {
-  "name": "adapt_framework",
+  "name": "g2a_adapt_framework",
   "version": "5.55.2",
   "description": "Adapt Learning output framework",
   "repository": {
@@ -12,9 +12,6 @@
     "test": "node ./test.js"
   },
   "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/adaptlearning/adapt_framework/issues"
-  },
   "engines": {
     "node": ">=18"
   },
