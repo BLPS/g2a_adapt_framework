@@ -1,6 +1,5 @@
 [submodule "src/core"]
   path = src/core
-  branch = main
+  branch = master
   url = https://github.com/BLPS/g2a_adapt-contrib-core
-  installBranch = v6.60.2
-
+  installBranch = v6.75.0

@@ -195,7 +195,9 @@ module.exports = function(grunt) {
       return [].concat(exports.defaults.includes, buildIncludes, dependencies);
     },
 
-    generateConfigData: function() {
+    generateConfigData: function({
+      rootDir = __dirname.split(path.sep).slice(0, -1).join(path.sep)
+    } = {}) {
 
       const localConfigPath = exports.getLocalConfig();
       const localConfig = localConfigPath
@@ -203,13 +205,13 @@ module.exports = function(grunt) {
         : {};
       const defaults = Object.assign({}, exports.defaults, localConfig);
 
-      const root = __dirname.split(path.sep).slice(0, -1).join(path.sep);
+      const root = rootDir;
       const adaptJSON = fs.readJSONSync(`${root}/adapt.json`);
       const sourcedir = appendSlash(grunt.option('sourcedir')) || defaults.sourcedir;
       const outputdir = appendSlash(grunt.option('outputdir')) || defaults.outputdir;
       const cachepath = grunt.option('cachepath') || null;
       const tempdir = outputdir + '.temp/';
-      const jsonext = grunt.option('jsonext') || defaults.jsonext;
+      const jsonext = grunt.option('jsonext') || adaptJSON.jsonext || defaults.jsonext;
       const coursedir = grunt.option('coursedir') || adaptJSON.coursedir || defaults.coursedir;
 
       let languageFolders = '';
@@ -224,14 +226,11 @@ module.exports = function(grunt) {
       // add root path if necessary, and point to course/config.json
 
       const configPath = path.join(path.resolve(root, configDir), coursedir, 'config.' + jsonext);
-      let buildConfig;
+      let buildConfig = {};
 
       try {
         buildConfig = grunt.file.readJSON(configPath).build || {};
-      } catch (error) {
-        grunt.log.error(error);
-        process.exit();
-      }
+      } catch (error) {}
 
       const isDevelopmentBuild = process.argv.some(arg => (arg === 'dev' || arg.includes(':dev') || arg.includes('--dev')));
       const cacheAge = isNaN(grunt.option('cacheage'))
@@ -255,7 +254,8 @@ module.exports = function(grunt) {
         scriptSafe: defaults.scriptSafe,
         strictMode: false,
         targets: buildConfig.targets || '',
-        cacheAge
+        cacheAge,
+        timestamp: isDevelopmentBuild ? 0 : Date.now()
       };
 
       if (buildConfig.jsonext) data.jsonext = buildConfig.jsonext;
@@ -283,7 +283,10 @@ module.exports = function(grunt) {
       });
       framework.load();
 
-      data.availableLanguageNames = framework.getData().languageNames;
+      data.availableLanguageNames = [];
+      try {
+        data.availableLanguageNames = framework.getData().languageNames;
+      } catch (err) {}
 
       return data;
     },
@@ -370,8 +373,11 @@ module.exports = function(grunt) {
     },
 
     /** @returns {Framework} */
-    getFramework: function({ useOutputData = Boolean(grunt.option('outputdir')) } = {}) {
-      const buildConfig = exports.generateConfigData();
+    getFramework: function({
+      useOutputData = Boolean(grunt.option('outputdir')),
+      rootDir = process.cwd()
+    } = {}) {
+      const buildConfig = exports.generateConfigData({ rootDir });
       const framework = new Framework({
         rootPath: buildConfig.root,
         outputPath: buildConfig.outputdir,
