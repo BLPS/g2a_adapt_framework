@@ -34,7 +34,7 @@
         "adapt-g2a-highlight": "git+https://${G2A_TOKEN}@github.com/BLPS/adapt-g2a-highlight.git#main",
         "adapt-g2a-instructions": "git+https://${G2A_TOKEN}@github.com/BLPS/adapt-g2a-instructions.git#main",
         "adapt-g2a-sideMenu": "git+https://${G2A_TOKEN}@github.com/BLPS/adapt-g2a-sideMenu.git#main",
-        "adapt-g2a-spoor": "git+https://${G2A_TOKEN}@github.com/BLPS/adapt-g2a-spoor.git#main",
+        "adapt-g2a-spoor": "git+https://${G2A_TOKEN}@github.com/BLPS/adapt-g2a-spoor.git#master",
         "adapt-g2a-listMenu": "git+https://${G2A_TOKEN}@github.com/BLPS/adapt-g2a-listMenu.git#main",
         "adapt-g2a-ironstone": "git+https://${G2A_TOKEN}@github.com/BLPS/adapt-g2a-ironstone.git#main"
     }
