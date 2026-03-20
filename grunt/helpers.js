@@ -176,7 +176,7 @@ module.exports = function(grunt) {
       const dependencies = [];
 
       const allowedEnvVars = [
-        'G2A_TOKEN'
+        'GIT_TOKEN'
       ];
 
       // Iterate over the plugin types.
