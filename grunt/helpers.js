@@ -168,12 +168,16 @@ module.exports = function(grunt) {
       scriptSafe: [
         'adapt-contrib-xapi',
         'adapt-contrib-spoor',
-        'adapt-bc-spoor'
+        'adapt-g2a-spoor'
       ]
     },
 
     getIncludes: function(buildIncludes, configData) {
       const dependencies = [];
+
+      const allowedEnvVars = [
+        'G2A_TOKEN'
+      ];
 
       // Iterate over the plugin types.
       for (let i = 0; i < exports.defaults.pluginTypes.length; i++) {
@@ -182,7 +186,17 @@ module.exports = function(grunt) {
         const plugins = _.intersection(fs.readdirSync(pluginTypeDir), buildIncludes);
         for (let j = 0; j < plugins.length; j++) {
           try {
-            const bowerJson = grunt.file.readJSON(path.join(pluginTypeDir, plugins[j], 'bower.json'));
+            let bowerRaw = grunt.file.read(path.join(pluginTypeDir, plugins[j], 'bower.json'));
+
+            bowerRaw = bowerRaw.replace(/\$\{([^}]+)\}/g, (match, envVar) => {
+              if (allowedEnvVars.includes(envVar)) {
+                return process.env[envVar] || match;
+              }
+              return match;
+            });
+
+            const bowerJson = JSON.parse(bowerRaw);
+
             for (const key in bowerJson.dependencies) {
               if (!_.contains(buildIncludes, key)) dependencies.push(key);
             }
