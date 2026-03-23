@@ -175,10 +175,6 @@ module.exports = function(grunt) {
     getIncludes: function(buildIncludes, configData) {
       const dependencies = [];
 
-      const allowedEnvVars = [
-        'GIT_TOKEN'
-      ];
-
       // Iterate over the plugin types.
       for (let i = 0; i < exports.defaults.pluginTypes.length; i++) {
         const pluginTypeDir = path.join(configData.sourcedir, exports.defaults.pluginTypes[i]);
@@ -186,17 +182,7 @@ module.exports = function(grunt) {
         const plugins = _.intersection(fs.readdirSync(pluginTypeDir), buildIncludes);
         for (let j = 0; j < plugins.length; j++) {
           try {
-            let bowerRaw = grunt.file.read(path.join(pluginTypeDir, plugins[j], 'bower.json'));
-
-            bowerRaw = bowerRaw.replace(/\$\{([^}]+)\}/g, (match, envVar) => {
-              if (allowedEnvVars.includes(envVar)) {
-                return process.env[envVar] || match;
-              }
-              return match;
-            });
-
-            const bowerJson = JSON.parse(bowerRaw);
-
+            const bowerJson = grunt.file.readJSON(path.join(pluginTypeDir, plugins[j], 'bower.json'));
             for (const key in bowerJson.dependencies) {
               if (!_.contains(buildIncludes, key)) dependencies.push(key);
             }
