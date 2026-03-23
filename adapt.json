@@ -35,7 +35,6 @@
         "adapt-g2a-sideMenu": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-sideMenu.git",
         "adapt-g2a-spoor": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-spoor.git",
         "adapt-g2a-listMenu": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-listMenu.git",
-        "adapt-g2a-ironstone": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-ironstone.git",
-        "adapt-mathJax": "git+https://github.com/cgkineo/adapt-mathJax.git"
+        "adapt-g2a-ironstone": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-ironstone.git"
     }
 }
