@@ -20,8 +20,21 @@
         "adapt-contrib-pageLevelProgress": "*",
         "adapt-contrib-resources": "*",
         "adapt-contrib-slider": "*",
-        "adapt-contrib-spoor": "*",
         "adapt-contrib-bookmarking": "*",
-        "adapt-contrib-languagePicker": "*"
+        "adapt-contrib-languagePicker": "*",
+        "adapt-g2a-checkboxTable": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-checkboxTable.git",
+        "adapt-g2a-dndQuestions": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-dndQuestions.git",
+        "adapt-g2a-dndQuestionsMulti": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-dndQuestionsMulti.git",
+        "adapt-g2a-flashCards": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-flashCards.git",
+        "adapt-g2a-inputTable": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-inputTable.git",
+        "adapt-g2a-questionMultiChoice": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-questionMultiChoice.git",
+        "adapt-g2a-sentenceMultiChoice": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-sentenceMultiChoice.git",
+        "adapt-g2a-textAnswer": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-textAnswer.git",
+        "adapt-g2a-highlight": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-highlight.git",
+        "adapt-g2a-instructions": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-instructions.git",
+        "adapt-g2a-sideMenu": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-sideMenu.git",
+        "adapt-g2a-spoor": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-spoor.git",
+        "adapt-g2a-listMenu": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-listMenu.git",
+        "adapt-g2a-ironstone": "git+https://${GIT_TOKEN}@github.com/BLPS/adapt-g2a-ironstone.git"
     }
 }
